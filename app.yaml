@@ -1,0 +1,23 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+  - url: /(.*\.(gif|png|jpg|css|js|woff|woff2|ttf|eot|svg|ico)(|\.map))$
+    static_files: dist/movies/\1
+    upload: dist/movies/(.*)(|\.map)
+
+  - url: /(.*)
+    static_files: dist/movies/index.html
+    upload: dist/movies/index.html
+
+ 
+skip_files:
+  - e2e/
+  - node_modules/
+  - src/
+  - ^(.*/)?\..*$
+  - ^(.*/)?.*\.json$
+  - ^(.*/)?.*\.md$
+  - ^(.*/)?.*\.yaml$
+  - ^LICENSE

@@ -1,0 +1,68 @@
+<div style="background-color: #ededed;">
+
+  <div class="row bg-dark pt-1 mx-0 " style="height:2.2rem">
+    <div class="col-11 text-white text-center"><b>Welcome <span class="mb-0 text-decoration-underline">
+          {{currentUser.emailaddress}}</span></b>
+    </div>
+    <div class="col-1 text-center">
+      <a class="text-white" href="javascript:void(0)" (click)="logout()">Logout</a>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center align-middle w100 vh-100">
+    <div class="spinner-border" style="width: 3rem; height: 3rem;">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading" class="container mt-4">
+    <div class="row justify-content-between">
+      <ng-container *ngFor="let movie of nowPlaying">
+        <div class="col-auto mb-3">
+          <div class="card" style="width: 18rem;min-height: 46rem;">
+            <img [src]="'https://image.tmdb.org/t/p/w220_and_h330_face' + movie.poster_path" class="card-img-top"
+              style="cursor: pointer" alt="movie.title" [title]="movie.overview">
+            <div class="card-body">
+              <h5 class="card-title">{{movie.title}}</h5>
+              <h6 class="card-subtitle mb-1 text-muted">{{movie.release_date| date:'MMM d, y'}}</h6>
+              <ng-container *ngFor="let genre of movie.genres;let last = last">
+                <small class="card-subtitle mb-4 text-muted">{{genre}}</small>
+                <small *ngIf="!last">, </small>
+              </ng-container>
+              <p class="card-text mt-4">{{movie.overview|readMore: 180: '...':false}}</p>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="row">
+      <ul class="pagination justify-content-end">
+        <li class="page-item">
+          <a class="page-link text-muted" href="javascript:void(0)" aria-label="Next"
+            [ngClass]="{ 'disabled': currentPage <=1 }" (click)="getNowPlayingMovies(1)">
+            <i class="fa fa-fast-backward" [ngClass]="{ 'opacity-25': currentPage <=1 }"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link text-muted" href="javascript:void(0)" aria-label="Previous"
+            [ngClass]="{ 'disabled': currentPage <=1 }" (click)="getNowPlayingMovies(currentPage-1)">
+            <i class="fa fa-backward" [ngClass]="{ 'opacity-25': currentPage <=1 }" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link text-muted" href="#" style="outline: none">{{currentPage}}</a></li>
+        <li class="page-item">
+          <a class="page-link text-muted" href="javascript:void(0)" aria-label="Next"
+            [ngClass]="{ 'disabled': currentPage ==totalPages }" (click)="getNowPlayingMovies(currentPage+1)">
+            <i class="fa fa-forward" [ngClass]="{ 'opacity-25': currentPage ==totalPages }"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link text-muted" href="javascript:void(0)" aria-label="Next"
+            [ngClass]="{ 'disabled': currentPage ==totalPages }" (click)="getNowPlayingMovies(totalPages)">
+            <i class="fa fa-fast-forward" [ngClass]="{ 'opacity-25': currentPage ==totalPages }"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
